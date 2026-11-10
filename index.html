@@ -118,8 +118,24 @@ header .name{font-family:var(--f-disp);font-size:20px;letter-spacing:.04em;text-
 header .name small{font-family:var(--f-zh);font-weight:900;font-size:17px;letter-spacing:.12em;margin-right:8px}
 .menu-btn{justify-self:end;width:44px;height:44px;border:0;background:none;color:inherit;cursor:pointer;display:grid;place-items:center}
 .menu-btn svg{width:34px;height:20px}
-#menu{position:fixed;inset:0;z-index:120;background:var(--ink);display:grid;align-content:center;padding:0 clamp(20px,6vw,90px);clip-path:inset(0 0 100% 0);transition:clip-path .55s cubic-bezier(.7,0,.2,1);visibility:hidden}
+#menu{position:fixed;inset:0;z-index:120;display:grid;grid-template-columns:auto 1fr;align-items:center;gap:clamp(24px,5vw,90px);padding:0 clamp(20px,6vw,90px);overflow:hidden;clip-path:inset(0 0 100% 0);transition:clip-path .55s cubic-bezier(.7,0,.2,1);visibility:hidden}
 #menu.open{clip-path:inset(0);visibility:visible}
+#menu .links{position:relative;z-index:2;display:grid}
+#menu .ghost-m{position:absolute;right:-2vw;bottom:-4vh;font-family:var(--f-disp);font-size:min(30vw,58vh);line-height:.8;text-transform:uppercase;pointer-events:none;
+  background:var(--peb-purple);background-size:150px;-webkit-background-clip:text;background-clip:text;color:transparent;opacity:.35}
+.menu-art{position:relative;z-index:1;height:min(74vh,640px);display:grid;place-items:center;opacity:0;transform:translateX(60px) rotate(4deg);transition:opacity .5s .25s, transform .7s .2s cubic-bezier(.2,.8,.2,1)}
+#menu.open .menu-art{opacity:1;transform:none}
+.menu-art .card{--r:3deg;width:min(26vw,40vh);position:relative;z-index:2}
+.menu-art .art{aspect-ratio:3/4}
+.menu-art .art img{position:absolute;inset:0;opacity:0;transform:scale(1.06);transition:opacity .35s, transform .6s}
+.menu-art .art img.on{opacity:1;transform:none}
+.menu-art .polaroid{position:absolute;width:min(17vw,27vh);z-index:1}
+.menu-art .pa{--r:-9deg;left:6%;top:4%}
+.menu-art .pb{--r:8deg;right:4%;bottom:6%}
+.menu-art .mcap{position:absolute;z-index:3;left:50%;bottom:0;transform:translateX(-50%);white-space:nowrap;font-family:var(--f-mono);font-size:13px;letter-spacing:.2em;color:var(--taupe)}
+.menu-art .mcap b{color:var(--gold);font-weight:400;margin-right:10px}
+#menu a.on{color:var(--gold)}
+@media (max-width:760px){#menu{grid-template-columns:1fr;align-content:center;gap:4vh}#menu a{font-size:clamp(34px,10vw,48px)}.menu-art{height:40vh}.menu-art .card{width:min(44vw,28vh)}.menu-art .polaroid{width:min(28vw,18vh)}.menu-art .pa{left:2%;top:0}.menu-art .pb{right:2%;bottom:10%}.menu-art .mcap{bottom:-6px;font-size:12px}}
 #menu a{display:flex;align-items:baseline;gap:18px;text-decoration:none;font-family:var(--f-zh);font-weight:900;font-size:clamp(36px,7vw,84px);line-height:1.25;color:var(--cream);transition:color .2s}
 #menu a:hover{color:var(--gold)}
 #menu a span{font-family:var(--f-mono);font-size:13px;font-weight:400;letter-spacing:.2em;color:var(--taupe)}
@@ -258,13 +274,26 @@ footer{background:var(--ink);color:var(--taupe);text-align:center;font-family:va
   <a class="name" href="#top"><small>鍾孟修</small>Matt</a>
   <button class="menu-btn" id="menuBtn" aria-label="開啟選單" aria-expanded="false" aria-controls="menu"><svg viewBox="0 0 34 20" fill="currentColor"><path d="M8 0h26l-4 6H4z"/><path d="M4 14h26l-4 6H0z"/></svg></button>
 </header>
-<nav id="menu" aria-label="主選單">
+<nav id="menu" class="field" aria-label="主選單">
+  <span class="ticks top"></span><span class="ticks bot"></span>
+  <div class="ghost-m" aria-hidden="true">Matt</div>
   <button class="close" id="menuClose">CLOSE ✕</button>
-  <a href="#about"><span>01</span>關於我</a>
-  <a href="#roles"><span>02</span>三個身分</a>
-  <a href="#work"><span>03</span>代表作品</a>
-  <a href="#playbook"><span>04</span>服務項目</a>
-  <a href="#contact"><span>05</span>合作邀約</a>
+  <div class="links">
+    <a href="#about" data-i="0" data-cap="職能治療師 · 體智活動專家"><span>01</span>關於我</a>
+    <a href="#roles" data-i="1" data-cap="執行長 · 所長 · 理事長"><span>02</span>三個身分</a>
+    <a href="#work" data-i="2" data-cap="遊戲簡報 · 卡片 · 撲克破冰"><span>03</span>代表作品</a>
+    <a href="#playbook" data-i="3" data-cap="居家復能 · 長照培訓 · 六力課程"><span>04</span>服務項目</a>
+    <a href="#contact" data-i="4" data-cap="講座 · 課程 · 企業合作"><span>05</span>合作邀約</a>
+  </div>
+  <div class="menu-art" aria-hidden="true">
+    <div class="polaroid pa"><img data-from=".stack .p2 img" alt=""></div>
+    <div class="polaroid pb"><img data-from=".stack .p1 img" alt=""></div>
+    <div class="card"><div class="art">
+      <img class="on" data-from=".hero-left img" alt=""><img data-from="#roles .item:nth-child(2) img" alt=""><img data-from="#work .item:nth-child(1) img" alt="" style="object-position:0 50%">
+      <img data-from="#roles .item:nth-child(3) img" alt="" style="object-position:70% 50%"><img data-from="#work .item:nth-child(3) img" alt="" style="object-position:0 50%">
+    </div></div>
+    <div class="mcap" id="mcap"><b>01</b>職能治療師 · 體智活動專家</div>
+  </div>
 </nav>
 
 <main>
@@ -660,6 +689,18 @@ Promise.all([load(ASSETS.face), load(ASSETS.mask), load(ASSETS.iris0), load(ASSE
   const setMenu = o => { menu.classList.toggle('open', o); btn.setAttribute('aria-expanded', o); document.body.style.overflow = o ? 'hidden' : ''; };
   btn.onclick = () => setMenu(true); document.getElementById('menuClose').onclick = () => setMenu(false);
   menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setMenu(false)));
+  // menu photo cards: reuse images already on the page (no extra download)
+  menu.querySelectorAll('img[data-from]').forEach(im => { const src = document.querySelector(im.dataset.from); if (src) im.src = src.getAttribute('src'); });
+  const arts = [...menu.querySelectorAll('.menu-art .art img')], links = [...menu.querySelectorAll('.links a')], mcap = document.getElementById('mcap');
+  const pick = i => { arts.forEach((im, k) => im.classList.toggle('on', k === i)); links.forEach((a, k) => a.classList.toggle('on', k === i));
+    mcap.innerHTML = '<b>' + String(i+1).padStart(2,'0') + '</b>' + links[i].dataset.cap; };
+  links.forEach((a, i) => { a.addEventListener('pointerenter', () => pick(i)); a.addEventListener('focus', () => pick(i)); });
+  // touch screens cannot hover: cycle the photos while the menu is open
+  let cyc = null, ci = 0;
+  if (!matchMedia('(hover:hover)').matches) new MutationObserver(() => {
+    clearInterval(cyc);
+    if (menu.classList.contains('open') && !reduce) { ci = 0; pick(0); cyc = setInterval(() => { ci = (ci + 1) % links.length; pick(ci); }, 1800); }
+  }).observe(menu, {attributes:true, attributeFilter:['class']});
   addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
   // card tilt
   if (!reduce && matchMedia('(hover:hover)').matches) document.querySelectorAll('.card').forEach(c => {
